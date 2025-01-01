@@ -5,7 +5,12 @@ const { marked } = require('marked');
 const ejs = require('ejs');
 
 async function build() {
-  await fs.mkdir('public/post', { recursive: true });
+  // Create dist directory
+  await fs.mkdir('dist', { recursive: true });
+  await fs.mkdir('dist/post', { recursive: true });
+
+  // Copy static files
+  await fs.cp('public', 'dist', { recursive: true });
 
   // Read all posts
   const postsDir = path.join(__dirname, 'posts');
@@ -42,7 +47,7 @@ async function build() {
 
   // Build index page
   const indexHtml = ejs.render(indexTemplate, { posts });
-  await fs.writeFile('public/index.html', indexHtml);
+  await fs.writeFile('dist/index.html', indexHtml);
 
   // Build individual post pages
   for (const post of posts) {
@@ -50,8 +55,8 @@ async function build() {
       post: { ...post, content: marked(post.content) },
       marked 
     });
-    await fs.mkdir(`public/post/${post.slug}`, { recursive: true });
-    await fs.writeFile(`public/post/${post.slug}/index.html`, postHtml);
+    await fs.mkdir(`dist/post/${post.slug}`, { recursive: true });
+    await fs.writeFile(`dist/post/${post.slug}/index.html`, postHtml);
   }
 
   // Build about page
@@ -59,8 +64,8 @@ async function build() {
   const aboutHtml = ejs.render(aboutTemplate, { 
     htmlContent: marked(aboutContent) 
   });
-  await fs.mkdir('public/about', { recursive: true });
-  await fs.writeFile('public/about/index.html', aboutHtml);
+  await fs.mkdir('dist/about', { recursive: true });
+  await fs.writeFile('dist/about/index.html', aboutHtml);
 }
 
 build().catch(console.error); 

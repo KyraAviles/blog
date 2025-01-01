@@ -27,13 +27,13 @@ body::after {
 
 body::before {
   left: 0;
-  background-image: url('/background2.JPG');
+  background-image: url('/background2.jpg');
   background-position: left center;
 }
 
 body::after {
   right: 0;
-  background-image: url('/background.JPG');
+  background-image: url('/background.jpg');
   background-position: right center;
 }
 
@@ -182,7 +182,7 @@ footer {
   }
 
   header {
-    background-image: url('/background2.JPG');
+    background-image: url('/background2.jpg');
     background-size: cover;
     background-position: center;
     padding: 60px 15px;
